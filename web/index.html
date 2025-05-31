@@ -4,23 +4,36 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://kit.fontawesome.com/6b94cef83b.js" crossorigin="anonymous"></script>
 	<title>DjangoCRUD</title>
 </head>
 <body>
 	<header>
         <div class="headerContainer">
-            <h1 class="Title"><i class="fa fa-folder-open"></i> Web</h1>
-            <nav class="navContainer">
-                <input class="searchBar" placeholder="Search ..." type="text"  id="searchBar">
-            </nav>
+            <h1 class="Title">Users</h1>
+            <input class="searchBar" placeholder="Search ..." type="text"  id="searchBar">
         </div>
     </header>
     <main>
         <div class="mainContainer">
             <section class="section1">
+				<div class="cards">
+					<i class="fa-solid fa-user-check"></i>
+            		<h3 class="Title">Total Users</h3>
+					<h1 id="totalUsers">004</h1>
+				</div>
+				<div class="cards">
+					<i class="fa-solid fa-user-plus"></i>
+            		<h3 class="Title">Created Users</h3>
+					<h1 id="createdUsers">004</h1>
+				</div>
+				<div class="cards">
+					<i class="fa-solid fa-user-minus"></i>
+            		<h3 class="Title">Deleted Users</h3>
+					<h1 id="deletedUsers">000</h1>
+				</div>
             </section>
-            <section class="section2">
+            <section id="userList" class="section2">
             </section>
         </div>
     </main>

@@ -1,57 +1,70 @@
-// Getting Nav Elements
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
+// URL For API Endpoint
+const API_URL = 'http://192.168.100.218:8000/user/';
+const BASE_URL = 'http://192.168.100.218:8000';
 
-// Getting Card Elements
-const card1 = document.getElementById("card1");
-const card2 = document.getElementById("card2");
-const card3 = document.getElementById("card3");
+// Function Update Analytics
+async function updateAnalytics() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
 
-// Creating Array of Cards
-const cards = [card1, card2, card3];
+    document.getElementById('totalUsers').textContent = data.length.toString().padStart(3, '0');
+    document.getElementById('createdUsers').textContent = data.active_users;
+    document.getElementById('deletedUsers').textContent = data.inactive_users;
+  } catch (error) {
+    console.error('Error fetching analytics:', error);
+  }
+}
 
-// Getting Article Elements
-const article1 = document.getElementById("article1");
-const article2 = document.getElementById("article2");
-const article3 = document.getElementById("article3");
+// Function Load Users From API
+async function loadUsers() {
+  try {
+    const res = await fetch(API_URL);
+    const users = await res.json();
 
-// Adding Event Listener To Nav Elements
-hamburger.addEventListener('click', function() {
-    navLinks.classList.toggle("active");
+    renderUsers(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+}
+
+// Function Render Users In The DOM
+function renderUsers(users) {
+  const list = document.getElementById('userList');
+  list.innerHTML = '';
+  users.forEach(user => {
+    const imgSrc = user.profile_picture.startsWith('/')
+      ? `${BASE_URL}${user.profile_picture}`
+      : user.profile_picture;
+
+    const card = document.createElement('div');
+    card.className = 'userCardContainer';
+
+    card.innerHTML = `
+      <img src="${imgSrc}" alt="profile">
+      <div class="userCard">
+        <h3>${user.name}</h3>
+        <p>${user.age}, ${user.gender}</p>
+        <p>${user.hobby}, ${user.profession}</p>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+// Search Functionality
+document.getElementById('searchBar').addEventListener('input', async e => {
+  const query = e.target.value.toLowerCase();
+  try {
+    const res = await fetch(API_URL);
+    const users = await res.json();
+    const filtered = users.filter(u => u.name.toLowerCase().includes(query));
+    renderUsers(filtered);
+  } catch (error) {
+    console.error('Error filtering users:', error);
+  }
 });
-navLinks.addEventListener('click', function() {
-    navLinks.classList.toggle("active");
-});
 
-// Adding Event Listener To Each Cards
-cards.forEach(card => {
-    card.addEventListener('click', function() {
-
-        switch (card) {
-            case card1:
-                article1.classList.toggle("show");
-                article2.classList.remove("show");
-                article3.classList.remove("show");
-                break;
-            case card2:
-                article1.classList.remove("show");
-                article2.classList.toggle("show");
-                article3.classList.remove("show");
-                break;
-            case card3:
-                article1.classList.remove("show");
-                article2.classList.remove("show");
-                article3.classList.toggle("show");
-                break;
-            default:
-                break;
-        }
-
-        card.classList.toggle("selected");
-        cards.forEach(c => {
-            if (c !== card) {
-                c.classList.remove("selected");
-            }
-        });
-    });
-});
+// Calling The Load Users Function On Page Load
+loadUsers();
