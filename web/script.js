@@ -1,16 +1,16 @@
 // URL For API Endpoint
-const API_URL = 'http://192.168.100.218:8000/user/';
 const BASE_URL = 'http://192.168.100.218:8000';
+const USER_URL = 'http://192.168.100.218:8000/user/';
 
 // Function Update Analytics
 async function updateAnalytics() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(USER_URL);
     const data = await res.json();
 
+    console.log(data.length);
+
     document.getElementById('totalUsers').textContent = data.length.toString().padStart(3, '0');
-    document.getElementById('createdUsers').textContent = data.active_users;
-    document.getElementById('deletedUsers').textContent = data.inactive_users;
   } catch (error) {
     console.error('Error fetching analytics:', error);
   }
@@ -19,7 +19,7 @@ async function updateAnalytics() {
 // Function Load Users From API
 async function loadUsers() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(USER_URL);
     const users = await res.json();
 
     renderUsers(users);
@@ -33,15 +33,11 @@ function renderUsers(users) {
   const list = document.getElementById('userList');
   list.innerHTML = '';
   users.forEach(user => {
-    const imgSrc = user.profile_picture.startsWith('/')
-      ? `${BASE_URL}${user.profile_picture}`
-      : user.profile_picture;
-
     const card = document.createElement('div');
     card.className = 'userCardContainer';
 
     card.innerHTML = `
-      <img src="${imgSrc}" alt="profile">
+      <img src="${BASE_URL}${user.profile_picture}" alt="profile">
       <div class="userCard">
         <h3>${user.name}</h3>
         <p>${user.age}, ${user.gender}</p>
@@ -68,3 +64,4 @@ document.getElementById('searchBar').addEventListener('input', async e => {
 
 // Calling The Load Users Function On Page Load
 loadUsers();
+updateAnalytics();

@@ -65,7 +65,7 @@ header {
     height: 30px;
     margin-left: 50px;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 /* Main Style */
@@ -116,13 +116,14 @@ section {
 
 .section1 .cards i {
     font-size: 24px;
-    float: right;
+    float: left;
 }
 
 .section1 .cards h3 {
     font-size: 18px;
     font-weight: normal;
     text-transform: uppercase;
+    text-align: end;
     margin-bottom: 10px;
 }
 
@@ -149,8 +150,9 @@ section {
 }
 
 .section2 .userCardContainer img {
-    width: 100%;
-    max-width: 100px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
     border-radius: 10px;
 }
 
@@ -162,7 +164,6 @@ section {
 
 .section2 .userCard h3 {
     color: var(--primaryColor);
-    text-transform: uppercase;
 }
 
 /* Footer Style */
