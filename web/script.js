@@ -1,6 +1,7 @@
 // URL For API Endpoint
 const BASE_URL = 'http://192.168.100.218:8000';
 const USER_URL = 'http://192.168.100.218:8000/user/';
+const UPDATE_URL = 'http://192.168.100.218:8000/user/<int:pk>/';
 
 // Function Update Analytics
 async function updateAnalytics() {
